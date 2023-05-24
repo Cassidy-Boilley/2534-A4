@@ -10,7 +10,6 @@ let totalPairs = 0;
 let gameStarted = false;
 let timerInterval;
 let selectedCards = [];
-
 // Fetch Pokémon data from the API
 async function fetchPokemonData() {
   try {
@@ -45,8 +44,8 @@ function initializeGame(difficulty, numCards) {
   document.getElementById('total-pairs').textContent = `Total Pairs: ${totalPairs}`;
   document.getElementById('timer').textContent = `Time: 00:00`;
   document.getElementById('game').innerHTML = '';
-  pokemonData.length = 6;
-  const maxCards = Math.min(numCards, 6);
+  pokemonData.length = numCards;
+  const maxCards = numCards
   const shuffledData = shuffleArray(pokemonData.slice(0, difficulty));
   const cards = shuffledData
     .slice(0, maxCards / 2)
@@ -78,6 +77,14 @@ function initializeGame(difficulty, numCards) {
   document.getElementById('total-pairs').textContent = `Total Pairs: ${totalPairs}`;
 }
 
+function changeTheme(theme) {
+    const body = document.body;
+    body.classList.remove('theme-light', 'theme-dark');
+    body.classList.add(`theme-${theme}`);
+}
+
+
+// Handle card click event
 function handleCardClick() {
   if (!gameStarted) {
     gameStarted = true;
@@ -88,27 +95,21 @@ function handleCardClick() {
     return;
   }
   flipCard(card);
-  selectedCards.push(card);
-  if (selectedCards.length === 2) {
-    const [card1, card2] = selectedCards;
-    const isPair = checkMatch(card1, card2);
+  if (!selectedCard) {
+    selectedCard = card;
+  } else {
+    const isPair = checkMatch(selectedCard, card);
     if (!isPair) {
       setTimeout(() => {
-        flipCard(card1);
-        flipCard(card2);
-        card1.dataset.matched = false;
-        card2.dataset.matched = false;
+        flipCard(selectedCard);
+        flipCard(card);
       }, 1000);
-    } else {
-      card1.dataset.matched = true;
-      card2.dataset.matched = true;
     }
-    selectedCards = [];
+    
     clicks++;
     document.getElementById('clicks').textContent = `Clicks: ${clicks}`;
   }
 }
-
 
 // Flip a card
 function flipCard(card) {
@@ -166,12 +167,10 @@ function resetGame() {
 }
 
 // Handle start button click event
-// Handle start button click event
 document.getElementById('start-btn').addEventListener('click', () => {
   const difficulty = document.getElementById('difficulty').value;
-  initializeGame(difficulty);
+  initializeGame(difficulty, 6);
 });
-
 
 // Handle reset button click event
 document.getElementById('reset-btn').addEventListener('click', resetGame);
@@ -189,7 +188,6 @@ document.getElementById('power-up').addEventListener('click', () => {
   });
 });
 
-// Retrieve Pokémon data and initialize the game
 fetchPokemonData()
   .then((data) => {
     pokemonData = data.map((pokemon) => ({

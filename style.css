@@ -73,3 +73,18 @@ h1 {
 #reset-btn {
     margin-left: 10px;
 }
+.theme-dark .card {
+    background-color: #E6CBEA;
+}
+
+.theme-dark .card.flipped {
+    background-color: #D0A4D9;
+}
+
+.theme-light .card {
+    background-color: #FAEFCB;
+}
+
+.theme-light .card.flipped {
+    background-color: #F8E9A9;
+}
