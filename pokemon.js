@@ -2,7 +2,6 @@
 const pokemonEndpoint = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=810';
 
 let pokemonData = [];
-let selectedCard = null;
 let clicks = 0;
 let pairsLeft = 0;
 let pairsMatched = 0;
@@ -83,8 +82,6 @@ function changeTheme(theme) {
     body.classList.add(`theme-${theme}`);
 }
 
-
-// Handle card click event
 function handleCardClick() {
   if (!gameStarted) {
     gameStarted = true;
@@ -95,21 +92,22 @@ function handleCardClick() {
     return;
   }
   flipCard(card);
-  if (!selectedCard) {
-    selectedCard = card;
-  } else {
-    const isPair = checkMatch(selectedCard, card);
+  selectedCards.push(card);
+  if (selectedCards.length === 2) {
+    const [card1, card2] = selectedCards;
+    const isPair = checkMatch(card1, card2);
     if (!isPair) {
       setTimeout(() => {
-        flipCard(selectedCard);
-        flipCard(card);
+        flipCard(card1);
+        flipCard(card2);
       }, 1000);
     }
-    
+    selectedCards = [];
     clicks++;
     document.getElementById('clicks').textContent = `Clicks: ${clicks}`;
   }
 }
+
 
 // Flip a card
 function flipCard(card) {
