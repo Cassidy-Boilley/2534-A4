@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pokémon Memory Card Game</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <h1>Pokémon Memory Card Game</h1>
+    
+    <div id="header">
+        <div id="clicks">Clicks: 0</div>
+        <div id="pairs-left">Pairs Left: 0</div>
+        <div id="pairs-matched">Pairs Matched: 0</div>
+        <div id="total-pairs">Total Pairs: 0</div>
+        <div id="timer">Time: 00:00</div>
+    </div>
+    <div id="controls">
+        <button id="reset-btn">Start</button>
+        <button id="start-btn">Reset</button>
+        
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <label for="theme">Theme:</label>
+        <select id="theme">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+        <button id="power-up">Power Up</button>
+    </div>
+    <div id="game"></div>
+    <script src="pokemon.js"></script>
+</body>
+
+</html>
